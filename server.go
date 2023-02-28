@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 )
@@ -14,6 +15,10 @@ const (
 func main() {
 	http.HandleFunc(PATH, realTimeHandler)
 	http.ListenAndServe(PORT, nil)
+	err := http.ListenAndServe(PORT, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func realTimeHandler(w http.ResponseWriter, r *http.Request) {
