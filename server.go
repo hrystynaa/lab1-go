@@ -6,12 +6,19 @@ import (
 	"time"
 )
 
+const (
+	PATH = "/time"
+	PORT = ":8795"
+)
+
 func main() {
-	http.HandleFunc("/time", realTimeHandler)
-	http.ListenAndServe(":8795", nil)
+	http.HandleFunc(PATH, realTimeHandler)
+	http.ListenAndServe(PORT, nil)
 }
 
 func realTimeHandler(w http.ResponseWriter, r *http.Request) {
+	realTime := time.Now().Format(time.RFC3339)
+	response := map[string]string{"time": realTime}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"time": time.Now().Format(time.RFC3339)})
+	json.NewEncoder(w).Encode(response)
 }
